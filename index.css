@@ -1,0 +1,285 @@
+
+:root {
+    color-scheme: light;
+    --background: #f7f8fa;
+    --surface: #ffffff;
+    --text: #202938;
+    --muted: #667085;
+    --border: #d9dee7;
+    --primary: #244b80;
+    --primary-hover: #1b3b67;
+    --success: #18794e;
+    --error: #b42318;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--background);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+}
+
+.container {
+    width: min(100% - 32px, 760px);
+    margin-inline: auto;
+}
+
+/* Header */
+
+.site-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+}
+
+.header-content {
+    padding: 22px 0;
+}
+
+.brand {
+    font-size: 1.45rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.brand span {
+    color: var(--primary);
+}
+
+.header-content p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+/* Contenuto principale */
+
+main {
+    flex: 1;
+    padding: 38px 0 52px;
+}
+
+.intro {
+    margin-bottom: 24px;
+}
+
+.intro h1 {
+    margin: 0 0 8px;
+    font-size: clamp(1.6rem, 4vw, 2rem);
+    line-height: 1.25;
+    letter-spacing: -0.5px;
+}
+
+.intro p {
+    max-width: 650px;
+    margin: 0;
+    color: var(--muted);
+}
+
+/* Unico modulo */
+
+.form-card {
+    padding: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+
+.form-card h2 {
+    margin: 0 0 24px;
+    font-size: 1.2rem;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group > label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 0.93rem;
+    font-weight: 600;
+}
+
+.optional {
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 400;
+}
+
+/* Campi */
+
+input[type="email"],
+select,
+textarea {
+    display: block;
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #c7ced9;
+    border-radius: 7px;
+    background: #fff;
+    color: var(--text);
+    font: inherit;
+    font-size: 0.95rem;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+select {
+    min-height: 44px;
+}
+
+textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #8a94a4;
+}
+
+input[type="email"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgb(36 75 128 / 12%);
+}
+
+.field-note {
+    margin-top: 5px;
+    color: var(--muted);
+    text-align: right;
+    font-size: 0.8rem;
+}
+
+/* Consenso */
+
+.privacy {
+    margin: 2px 0 20px;
+}
+
+.privacy label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: #475467;
+    font-size: 0.88rem;
+    cursor: pointer;
+}
+
+.privacy input {
+    flex: 0 0 auto;
+    width: 16px;
+    height: 16px;
+    margin: 4px 0 0;
+    accent-color: var(--primary);
+}
+
+/* Pulsante */
+
+button {
+    display: block;
+    width: 100%;
+    min-height: 46px;
+    padding: 11px 16px;
+    border: 1px solid var(--primary);
+    border-radius: 7px;
+    background: var(--primary);
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 150ms ease;
+}
+
+button:hover {
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+
+button:focus-visible {
+    outline: 3px solid rgb(36 75 128 / 25%);
+    outline-offset: 2px;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Messaggi di stato */
+
+#form-status {
+    margin: 14px 0 0;
+    font-size: 0.9rem;
+    overflow-wrap: anywhere;
+}
+
+#form-status:empty {
+    display: none;
+}
+
+#form-status.success {
+    color: var(--success);
+}
+
+#form-status.error {
+    color: var(--error);
+}
+
+.required-note {
+    margin: 14px 0 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+}
+
+/* Footer */
+
+.site-footer {
+    padding: 18px 0;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+/* Smartphone */
+
+@media (max-width: 520px) {
+    .container {
+        width: min(100% - 24px, 760px);
+    }
+
+    .header-content {
+        padding: 18px 0;
+    }
+
+    main {
+        padding: 28px 0 36px;
+    }
+
+    .form-card {
+        padding: 21px 17px;
+    }
+}
+
+/* Accessibilità */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto;
+        transition: none;
+    }
+}
