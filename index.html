@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Modulo ufficiale della classe 1C IT per proposte e segnalazioni."
+    >
+
+    <title>1C IT : Form Segnalazioni</title>
+
+    <link rel="stylesheet" href="index.css">
+
+    <!-- EmailJS -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+        defer
+    ></script>
+
+    <script src="index.js" defer></script>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="container header-content">
+            <div class="brand">1C <span>IT</span></div>
+            <p>Form Segnalazioni</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="intro">
+            <h1>Segnalazioni e proposte</h1>
+
+            <p>
+                Utilizza questo modulo per comunicare problemi,
+                proposte o esigenze relative alla classe.
+            </p>
+        </section>
+
+        <section class="form-card">
+            <h2>Invia una segnalazione</h2>
+
+            <form id="suggestion-form">
+
+                <div class="form-group">
+                    <label for="category">
+                        Categoria <span aria-hidden="true">*</span>
+                    </label>
+
+                    <select id="category" name="category" required>
+                        <option value="" disabled selected>
+                            Seleziona una categoria
+                        </option>
+                        <option value="Proposta">Proposta</option>
+                        <option value="Problema">Problema</option>
+                        <option value="Organizzazione">Organizzazione</option>
+                        <option value="Materiale didattico">
+                            Materiale didattico
+                        </option>
+                        <option value="Altro">Altro</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="priority">Priorità</label>
+
+                    <select id="priority" name="priority" required>
+                        <option value="Normale" selected>
+                            Normale
+                        </option>
+                        <option value="Alta">Alta</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">
+                        Messaggio <span aria-hidden="true">*</span>
+                    </label>
+
+                    <textarea
+                        id="message"
+                        name="message"
+                        rows="6"
+                        maxlength="2000"
+                        placeholder="Descrivi la proposta o la segnalazione..."
+                        required
+                    ></textarea>
+
+                    <div class="field-note">
+                        <span id="char-count">0</span>/2000 caratteri
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reply-email">
+                        Email per un'eventuale risposta
+                        <span class="optional">(facoltativa)</span>
+                    </label>
+
+                    <input
+                        type="email"
+                        id="reply-email"
+                        name="reply_email"
+                        placeholder="nome@example.com"
+                        autocomplete="email"
+                    >
+                </div>
+
+                <div class="privacy">
+                    <label for="privacy">
+                        <input
+                            type="checkbox"
+                            id="privacy"
+                            name="privacy"
+                            required
+                        >
+
+                        <span>
+                            Confermo di non inserire dati personali
+                            non necessari o informazioni private di altre persone.
+                        </span>
+                    </label>
+                </div>
+
+                <button type="submit" id="submit-button">
+                    Invia segnalazione
+                </button>
+
+                <p
+                    id="form-status"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+
+                <p class="required-note">
+                    * Campi obbligatori
+                </p>
+
+            </form>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            1C IT · Form Segnalazioni
+        </div>
+    </footer>
+
+</body>
+</html>
