@@ -1,9 +1,8 @@
 
 const EMAILJS_PUBLIC_KEY = "WOINqGL6nqkSRuonh";
 const EMAILJS_SERVICE_ID = "service_27erxva";
-
 const TEMPLATE_REP1 = "template_yndok7t";
-const TEMPLATE_REP2 = "template_3yye4iw";
+
 emailjs.init({
     publicKey: EMAILJS_PUBLIC_KEY
 });
@@ -23,6 +22,7 @@ function setStatus(message, success = false) {
     formStatus.textContent = message;
     formStatus.style.color = success ? "#18794e" : "#b42318";
 }
+
 if (messageInput && charCount) {
     const updateCharCount = () => {
         charCount.textContent = messageInput.value.length;
@@ -51,6 +51,7 @@ form.addEventListener("submit", async (event) => {
         messageInput.focus();
         return;
     }
+
     const templateParams = {
         category: categoryInput.value,
         priority: priorityInput.value,
@@ -64,56 +65,27 @@ form.addEventListener("submit", async (event) => {
 
     submitButton.disabled = true;
     submitButton.textContent = "Invio in corso...";
-    setStatus("Invio delle segnalazioni in corso...");
+    setStatus("Invio della segnalazione in corso...");
 
     try {
-        const results = await Promise.allSettled([
-            emailjs.send(
-                EMAILJS_SERVICE_ID,
-                TEMPLATE_REP1,
-                templateParams
-            ),
-            emailjs.send(
-                EMAILJS_SERVICE_ID,
-                TEMPLATE_REP2,
-                templateParams
-            )
-        ]);
+        await emailjs.send(
+            EMAILJS_SERVICE_ID,
+            TEMPLATE_REP1,
+            templateParams
+        );
 
-        const firstSent = results[0].status === "fulfilled";
-        const secondSent = results[1].status === "fulfilled";
+        setStatus("Segnalazione inviata correttamente!", true);
 
-        if (firstSent && secondSent) {
-            setStatus("Segnalazione inviata a entrambi i rappresentanti.", true);
-            form.reset();
+        form.reset();
 
-            if (charCount) {
-                charCount.textContent = "0";
-            }
-        } else if (firstSent || secondSent) {
-            const sentTo = firstSent
-                ? "il primo rappresentante"
-                : "il secondo rappresentante";
-
-            const failedFor = firstSent
-                ? "il secondo rappresentante"
-                : "il primo rappresentante";
-
-            setStatus(
-                `Email inviata a ${sentTo}, ma l'invio a ${failedFor} non è riuscito. Non reinviare subito: potresti duplicare la prima email.`
-            );
-
-            console.error("Risultati EmailJS:", results);
-        } else {
-            setStatus(
-                "Invio non riuscito per entrambi i rappresentanti. Controlla la configurazione e riprova."
-            );
-
-            console.error("Errori EmailJS:", results);
+        if (charCount) {
+            charCount.textContent = "0";
         }
+
     } catch (error) {
-        console.error("Errore durante l'invio:", error);
-        setStatus("Si è verificato un errore imprevisto.");
+        console.error("Errore EmailJS:", error);
+        setStatus("Invio non riuscito. Controlla la configurazione e riprova.");
+
     } finally {
         submitButton.disabled = false;
         submitButton.textContent = "Invia segnalazione";
