@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Note per la 1C</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 16px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #202124;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 520px;
+            padding: 30px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 26px;
+        }
+
+        .subtitle {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 170px;
+            padding: 14px;
+            border: 1px solid #d0d5dd;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            resize: vertical;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #2563eb;
+        }
+
+        .counter {
+            text-align: right;
+            color: #777;
+            font-size: 13px;
+            margin-top: 7px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #assembly-status {
+            margin-top: 16px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .privacy {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #777;
+            line-height: 1.5;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <h1>Note per la 1C</h1>
+
+        <p class="subtitle">
+            Hai una proposta, un'idea o qualcosa da migliorare?
+            Questo spazio è dedicato alla raccolta di idee,
+            proposte e osservazioni durante le assemblee della 1C.
+        </p>
+
+        <form id="assembly-form">
+
+            <label for="description">
+                La tua proposta
+            </label>
+
+            <textarea id="description" name="description" maxlength="1500" placeholder="Scrivi qui la tua idea..."
+                required></textarea>
+
+            <div class="counter">
+                <span id="char-count">0</span>/1500
+            </div>
+
+            <button type="submit" id="assembly-submit">
+                Invia proposta
+            </button>
+
+            <p id="assembly-status" aria-live="polite"></p>
+
+        </form>
+
+        <p class="privacy">
+            Non vengono richiesti nome o indirizzo email.
+            Evita di inserire dati personali nella proposta.
+        </p>
+
+    </main>
+
+    <script>
+        const EMAILJS_PUBLIC_KEY = "WOINqGL6nqkSRuonh";
+        const EMAILJS_SERVICE_ID = "service_27erxva";
+        const ASSEMBLY_TEMPLATE = "template_3yye4iw";
+
+        emailjs.init({
+            publicKey: EMAILJS_PUBLIC_KEY
+        });
+
+        const assemblyForm = document.getElementById("assembly-form");
+        const assemblyMessage = document.getElementById("description");
+        const assemblyButton = document.getElementById("assembly-submit");
+        const assemblyStatus = document.getElementById("assembly-status");
+        const charCount = document.getElementById("char-count");
+
+        assemblyMessage.addEventListener("input", () => {
+            charCount.textContent = assemblyMessage.value.length;
+        });
+
+        assemblyForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            if (!assemblyForm.checkValidity()) {
+                assemblyForm.reportValidity();
+                return;
+            }
+
+            const description = assemblyMessage.value.trim();
+
+            if (!description) {
+                assemblyStatus.textContent = "Scrivi una proposta prima di inviare.";
+                return;
+            }
+
+            assemblyButton.disabled = true;
+            assemblyButton.textContent = "Invio in corso...";
+
+            assemblyStatus.textContent = "Invio della proposta in corso...";
+            assemblyStatus.style.color = "#666";
+
+            try {
+                await emailjs.send(
+                    EMAILJS_SERVICE_ID,
+                    ASSEMBLY_TEMPLATE,
+                    {
+                        description: description
+                    }
+                );
+
+                assemblyStatus.textContent = "Proposta inviata correttamente!";
+                assemblyStatus.style.color = "#18794e";
+
+                assemblyForm.reset();
+                charCount.textContent = "0";
+
+            } catch (error) {
+                console.error("Errore EmailJS:", error);
+
+                assemblyStatus.textContent = "Invio non riuscito. Riprova.";
+                assemblyStatus.style.color = "#b42318";
+
+            } finally {
+                assemblyButton.disabled = false;
+                assemblyButton.textContent = "Invia proposta";
+            }
+        });
+    </script>
+
+</body>
+
+</html>
